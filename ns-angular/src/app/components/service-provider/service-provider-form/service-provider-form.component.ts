@@ -1,49 +1,54 @@
-import { Component } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ServiceProvider } from '../models/service-provider.model';
 
-@Component({
-  selector: 'app-service-provider-form',
-  templateUrl: './service-provider-form.component.html',
-  styleUrls: ['./service-provider-form.component.css']
+@Injectable({
+  providedIn: 'root',
 })
-export class ServiceProviderFormComponent {
-  serviceProvider = {
-    fullName: '',
-    email: '',
-    phoneNumber: '',
-    weeklySalary: 0,
-    availableFrom: '',
-    availableTo: ''
-  };
+export class ServiceProviderService {
+  private baseUrl = 'http://localhost:8080/api/service-providers';
 
-  serviceProviders: any[] = [];
+  constructor(private http: HttpClient) {}
 
-  onSubmit(form: any) {
-    if (this.serviceProvider['id']) {
-      // Update logic here
-      console.log('Updating service provider:', this.serviceProvider);
-    } else {
-      // Add logic here
-      console.log('Adding service provider:', this.serviceProvider);
-      this.serviceProviders.push({ ...this.serviceProvider });
-    }
-    form.reset();
+  /**
+   * Get all service providers
+   */
+  getAllServiceProviders(): Observable<ServiceProvider[]> {
+    return this.http.get<ServiceProvider[]>(`${this.baseUrl}`);
   }
 
-  onEdit(provider: any) {
-    this.serviceProvider = { ...provider };
+  /**
+   * Add a new service provider
+   * @param serviceProvider - the service provider object to add
+   */
+  addServiceProvider(serviceProvider: ServiceProvider): Observable<ServiceProvider> {
+    return this.http.post<ServiceProvider>(`${this.baseUrl}`, serviceProvider);
   }
 
-  onDelete() {
-    this.serviceProviders = this.serviceProviders.filter(
-      (p) => p.email !== this.serviceProvider.email
-    );
-    this.serviceProvider = {
-      fullName: '',
-      email: '',
-      phoneNumber: '',
-      weeklySalary: 0,
-      availableFrom: '',
-      availableTo: ''
-    };
+  /**
+   * Edit an existing service provider
+   * @param id - the ID of the service provider to edit
+   * @param serviceProvider - the updated service provider object
+   */
+  editServiceProvider(id: number, serviceProvider: ServiceProvider): Observable<ServiceProvider> {
+    return this.http.put<ServiceProvider>(`${this.baseUrl}/${id}`, serviceProvider);
+  }
+
+  /**
+   * Delete a service provider
+   * @param id - the ID of the service provider to delete
+   */
+  deleteServiceProvider(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  /**
+   * Change the status of a service provider
+   * @param id - the ID of the service provider
+   * @param statusId - the new status ID
+   */
+  changeStatus(id: number, statusId: number): Observable<ServiceProvider> {
+    return this.http.patch<ServiceProvider>(`${this.baseUrl}/${id}/status`, { statusId });
   }
 }

@@ -1,125 +1,120 @@
+<!-- service-provider-form.component.html -->
 <div class="container mt-5">
-    <!-- Page Title -->
-    <h2 class="text-center mb-4 text-primary">Manage Service Providers</h2>
+    <h2 class="text-center mb-4">Service Provider Form</h2>
+    <form [formGroup]="serviceProviderForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
   
-    <!-- Card for Form -->
-    <div class="card shadow-lg">
-      <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">Service Provider Form</h5>
+      <!-- Full Name -->
+      <div class="mb-3">
+        <label for="fullName" class="form-label">Full Name</label>
+        <input type="text" id="fullName" class="form-control" formControlName="fullName" placeholder="Enter full name" required />
       </div>
-      <div class="card-body">
-        <form #serviceProviderForm="ngForm" (ngSubmit)="onSubmit(serviceProviderForm)">
-          <!-- Full Name -->
-          <div class="mb-3">
-            <label for="fullName" class="form-label">Full Name</label>
-            <input
-              type="text"
-              id="fullName"
-              name="fullName"
-              class="form-control"
-              [(ngModel)]="serviceProvider.fullName"
-              placeholder="Enter full name"
-              required
-            />
-          </div>
   
-          <!-- Email -->
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              class="form-control"
-              [(ngModel)]="serviceProvider.email"
-              placeholder="Enter email"
-              required
-            />
-          </div>
-  
-          <!-- Phone Number -->
-          <div class="mb-3">
-            <label for="phoneNumber" class="form-label">Phone Number</label>
-            <input
-              type="tel"
-              id="phoneNumber"
-              name="phoneNumber"
-              class="form-control"
-              [(ngModel)]="serviceProvider.phoneNumber"
-              placeholder="Enter phone number"
-              required
-            />
-          </div>
-  
-          <!-- Weekly Salary -->
-          <div class="mb-3">
-            <label for="weeklySalary" class="form-label">Weekly Salary</label>
-            <input
-              type="number"
-              id="weeklySalary"
-              name="weeklySalary"
-              class="form-control"
-              [(ngModel)]="serviceProvider.weeklySalary"
-              placeholder="Enter weekly salary"
-              required
-            />
-          </div>
-  
-          <!-- Available From -->
-          <div class="mb-3">
-            <label for="availableFrom" class="form-label">Available From</label>
-            <input
-              type="datetime-local"
-              id="availableFrom"
-              name="availableFrom"
-              class="form-control"
-              [(ngModel)]="serviceProvider.availableFrom"
-              required
-            />
-          </div>
-  
-          <!-- Available To -->
-          <div class="mb-3">
-            <label for="availableTo" class="form-label">Available To</label>
-            <input
-              type="datetime-local"
-              id="availableTo"
-              name="availableTo"
-              class="form-control"
-              [(ngModel)]="serviceProvider.availableTo"
-              required
-            />
-          </div>
-  
-          <!-- Buttons -->
-          <div class="d-flex justify-content-end">
-            <button type="submit" class="btn btn-success me-2" [disabled]="!serviceProviderForm.valid">
-              Add / Edit
-            </button>
-            <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
-          </div>
-        </form>
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" class="form-control" formControlName="email" placeholder="Enter email" required />
       </div>
-    </div>
   
-    <!-- List of Service Providers -->
-    <div class="card mt-4 shadow">
-      <div class="card-header bg-success text-white">
-        <h5 class="mb-0">Existing Service Providers</h5>
+      <!-- Phone Number -->
+      <div class="mb-3">
+        <label for="phoneNumber" class="form-label">Phone Number</label>
+        <input type="text" id="phoneNumber" class="form-control" formControlName="phoneNumber" placeholder="Enter phone number" required />
       </div>
-      <div class="card-body">
-        <div *ngIf="serviceProviders.length > 0; else noProviders">
-          <ul class="list-group">
-            <li *ngFor="let provider of serviceProviders" class="list-group-item d-flex justify-content-between align-items-center">
-              {{ provider.fullName }} ({{ provider.email }})
-              <button class="btn btn-sm btn-primary" (click)="onEdit(provider)">Edit</button>
-            </li>
-          </ul>
+  
+      <!-- Username and Password -->
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" id="username" class="form-control" formControlName="username" placeholder="Enter username" required />
         </div>
-        <ng-template #noProviders>
-          <p class="text-muted text-center">No service providers available.</p>
-        </ng-template>
+        <div class="col-md-6 mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" id="password" class="form-control" formControlName="password" placeholder="Enter password" required />
+        </div>
       </div>
-    </div>
+  
+      <!-- Gender -->
+      <div class="mb-3">
+        <label class="form-label">Gender</label>
+        <div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="male" formControlName="gender" value="Male" />
+            <label class="form-check-label" for="male">Male</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="female" formControlName="gender" value="Female" />
+            <label class="form-check-label" for="female">Female</label>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Category Dropdown -->
+      <app-category-dropdown formControlName="category"></app-category-dropdown>
+  
+      <!-- Weekly Salary -->
+      <div class="mb-3">
+        <label for="weeklySalary" class="form-label">Weekly Salary</label>
+        <input type="number" id="weeklySalary" class="form-control" formControlName="weeklySalary" placeholder="Enter weekly salary" required />
+      </div>
+  
+      <!-- Availability Dates -->
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="availableFrom" class="form-label">Available From</label>
+          <input type="datetime-local" id="availableFrom" class="form-control" formControlName="availableFrom" required />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="availableTo" class="form-label">Available To</label>
+          <input type="datetime-local" id="availableTo" class="form-control" formControlName="availableTo" required />
+        </div>
+      </div>
+  
+      <!-- Address Form -->
+      <app-address-form formControlName="address"></app-address-form>
+  
+      <!-- Live-In -->
+      <div class="mb-3">
+        <label class="form-label">Live In</label>
+        <div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="liveInTrue" formControlName="liveIn" [value]="true" />
+            <label class="form-check-label" for="liveInTrue">True</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="liveInFalse" formControlName="liveIn" [value]="false" />
+            <label class="form-check-label" for="liveInFalse">False</label>
+          </div>
+        </div>
+      </div>
+  
+      <!-- ID Proof URL -->
+      <div class="mb-3">
+        <label for="idProofUrl" class="form-label">ID Proof URL</label>
+        <input type="url" id="idProofUrl" class="form-control" formControlName="idProofUrl" placeholder="Enter ID Proof URL" required />
+      </div>
+  
+      <!-- Nurse License URL (Conditional) -->
+      <div *ngIf="isNurseOrDualRole()" class="mb-3">
+        <label for="nurseLicenseUrl" class="form-label">Nurse License URL</label>
+        <input type="url" id="nurseLicenseUrl" class="form-control" formControlName="nurseLicenseUrl" placeholder="Enter Nurse License URL" required />
+      </div>
+  
+      <!-- Qualification (Conditional) -->
+      <div *ngIf="isApplicableForQualification()" class="row">
+        <div class="col-md-6 mb-3">
+          <label for="experienceYears" class="form-label">Experience Years</label>
+          <input type="number" id="experienceYears" class="form-control" formControlName="experienceYears" placeholder="Enter experience years" required />
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="roleName" class="form-label">Role Name</label>
+          <input type="text" id="roleName" class="form-control" formControlName="roleName" placeholder="Enter role name" required />
+        </div>
+      </div>
+  
+      <!-- Submit Button -->
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary" [disabled]="serviceProviderForm.invalid">Submit</button>
+      </div>
+    </form>
   </div>
   
