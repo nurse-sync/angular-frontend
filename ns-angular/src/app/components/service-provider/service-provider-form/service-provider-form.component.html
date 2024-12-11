@@ -1,0 +1,125 @@
+<div class="container mt-5">
+    <!-- Page Title -->
+    <h2 class="text-center mb-4 text-primary">Manage Service Providers</h2>
+  
+    <!-- Card for Form -->
+    <div class="card shadow-lg">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Service Provider Form</h5>
+      </div>
+      <div class="card-body">
+        <form #serviceProviderForm="ngForm" (ngSubmit)="onSubmit(serviceProviderForm)">
+          <!-- Full Name -->
+          <div class="mb-3">
+            <label for="fullName" class="form-label">Full Name</label>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              class="form-control"
+              [(ngModel)]="serviceProvider.fullName"
+              placeholder="Enter full name"
+              required
+            />
+          </div>
+  
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control"
+              [(ngModel)]="serviceProvider.email"
+              placeholder="Enter email"
+              required
+            />
+          </div>
+  
+          <!-- Phone Number -->
+          <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Phone Number</label>
+            <input
+              type="tel"
+              id="phoneNumber"
+              name="phoneNumber"
+              class="form-control"
+              [(ngModel)]="serviceProvider.phoneNumber"
+              placeholder="Enter phone number"
+              required
+            />
+          </div>
+  
+          <!-- Weekly Salary -->
+          <div class="mb-3">
+            <label for="weeklySalary" class="form-label">Weekly Salary</label>
+            <input
+              type="number"
+              id="weeklySalary"
+              name="weeklySalary"
+              class="form-control"
+              [(ngModel)]="serviceProvider.weeklySalary"
+              placeholder="Enter weekly salary"
+              required
+            />
+          </div>
+  
+          <!-- Available From -->
+          <div class="mb-3">
+            <label for="availableFrom" class="form-label">Available From</label>
+            <input
+              type="datetime-local"
+              id="availableFrom"
+              name="availableFrom"
+              class="form-control"
+              [(ngModel)]="serviceProvider.availableFrom"
+              required
+            />
+          </div>
+  
+          <!-- Available To -->
+          <div class="mb-3">
+            <label for="availableTo" class="form-label">Available To</label>
+            <input
+              type="datetime-local"
+              id="availableTo"
+              name="availableTo"
+              class="form-control"
+              [(ngModel)]="serviceProvider.availableTo"
+              required
+            />
+          </div>
+  
+          <!-- Buttons -->
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success me-2" [disabled]="!serviceProviderForm.valid">
+              Add / Edit
+            </button>
+            <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <!-- List of Service Providers -->
+    <div class="card mt-4 shadow">
+      <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Existing Service Providers</h5>
+      </div>
+      <div class="card-body">
+        <div *ngIf="serviceProviders.length > 0; else noProviders">
+          <ul class="list-group">
+            <li *ngFor="let provider of serviceProviders" class="list-group-item d-flex justify-content-between align-items-center">
+              {{ provider.fullName }} ({{ provider.email }})
+              <button class="btn btn-sm btn-primary" (click)="onEdit(provider)">Edit</button>
+            </li>
+          </ul>
+        </div>
+        <ng-template #noProviders>
+          <p class="text-muted text-center">No service providers available.</p>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  
